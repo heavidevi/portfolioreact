@@ -14,6 +14,7 @@ export default function SmoothScroll({
       raf: (time: number) => void;
       destroy: () => void;
     } | null = null;
+    let rafId: number;
 
     async function initLenis() {
       try {
@@ -28,26 +29,21 @@ export default function SmoothScroll({
 
         lenisRef.current = lenis;
 
-        let rafId: number;
         function raf(time: number) {
           lenis!.raf(time);
           rafId = requestAnimationFrame(raf);
         }
         rafId = requestAnimationFrame(raf);
-
-        return () => {
-          cancelAnimationFrame(rafId);
-          lenis?.destroy();
-        };
       } catch {
         // Lenis not available, fall back to native scroll
-        return () => {};
       }
     }
 
-    const cleanup = initLenis();
+    initLenis();
+
     return () => {
-      cleanup.then((fn) => fn?.());
+      cancelAnimationFrame(rafId);
+      lenis?.destroy();
     };
   }, []);
 

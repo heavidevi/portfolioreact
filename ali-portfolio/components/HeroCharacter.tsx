@@ -10,7 +10,7 @@ const Spline = dynamic(
 );
 
 interface HeroCharacterProps {
-  contactBtnRef: React.RefObject<HTMLAnchorElement>;
+  contactBtnRef: React.RefObject<HTMLAnchorElement | null>;
   // This should be the path to your character image (PNG with transparent background recommended)
   characterImg?: string;
 }
