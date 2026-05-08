@@ -84,7 +84,7 @@ export default function HeroSection() {
           </motion.a>
 
           <motion.a
-            href="/cv-muhammad-ali-adeel.pdf"
+            href="../public/Muhammad_Ali_Adeel.pdf"
             download
             className="btn-outline"
             whileHover={{ borderColor: "#D2FF00", color: "#D2FF00" }}
