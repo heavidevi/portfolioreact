@@ -8,7 +8,7 @@ export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const trailPos = useRef({ x: 0, y: 0 });
   const mousePos = useRef({ x: 0, y: 0 });
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
