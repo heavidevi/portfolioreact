@@ -1,6 +1,17 @@
+# Ignore legacy Vite portfolio project
+portfolio-vite-legacy
 portfolio
+
+# Git and environment files
 .git
+.gitignore
+.env
 .env.local
 .env.*.local
+.env.*.example
+
+# Dependencies and build artifacts
 node_modules
 .next/cache
+dist
+build
