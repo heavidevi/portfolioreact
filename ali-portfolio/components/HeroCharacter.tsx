@@ -24,6 +24,46 @@ export default function HeroCharacter({ contactBtnRef, characterImg = "/HeroChar
   const [splineReady, setSplineReady] = useState(false);
   const sceneUrl = "https://prod.spline.design/mPTjk8dzhj8oeLFN/scene.splinecode";
 
+  // attempt to mount the web-component Spline viewer as a fallback
+  const tryMountWebViewer = async (): Promise<boolean> => {
+    try {
+      const parent = wrapperRef.current;
+      if (!parent) return false;
+
+      // dynamically load the web component script
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/@splinetool/viewer@1/build/spline-viewer.js";
+      script.async = true;
+      document.head.appendChild(script);
+
+      // wait for the script to load
+      await new Promise<void>((resolve) => {
+        script.onload = () => resolve();
+        script.onerror = () => resolve();
+      });
+
+      // create the spline-viewer element
+      const viewer = document.createElement("spline-viewer");
+      viewer.setAttribute("url", sceneUrl);
+      viewer.style.width = "100%";
+      viewer.style.height = "100%";
+      viewer.style.display = "block";
+      webViewerRef.current = viewer;
+
+      // find the inner div and append the viewer
+      const innerDiv = parent.querySelector(".absolute.inset-0");
+      if (innerDiv) {
+        innerDiv.appendChild(viewer);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn("[HeroCharacter] Failed to mount web viewer:", error);
+      return false;
+    }
+  };
+
   // notify other code that Spline is ready and provide a visible badge
   useEffect(() => {
     if (splineReady) {
